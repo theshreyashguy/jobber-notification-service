@@ -7,10 +7,15 @@ import { Logger } from 'winston';
 const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'notificationElasticSearchServer', 'debug');
 
 const elasticSearchClient = new Client({
-  node: `${config.ELASTIC_SEARCH_URL}`
+  node: `${config.ELASTIC_SEARCH_URL}`,
+  auth: {
+    username: 'elastic',
+    password: 'admin1234'
+  }
 });
 
 export async function checkConnection(): Promise<void> {
+  log.info(`NotificationServices Elasticsearch trying..........`);
   let isConnected = false;
   while (!isConnected) {
     try {
